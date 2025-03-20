@@ -1,0 +1,20 @@
+PROMPT:
+Please create a proposal to rewrite the entire system in Rust. Rearchitecting is fine where it would improve modularity and use of best practice design patterns; orthogonality is a top goal.
+  Approach should be blue sky, while still providing core features. Create a new directory, zclaude, and an appropriately named subdirectory to store all proposal documents. Finish the proposal by
+  creating an actionable TODO document.
+
+
+ANSWER:
+I've created a comprehensive Rust rewrite proposal for DirectoryLister with the following documents in the /zclaude/rust-rewrite-proposal/ directory:
+
+  1. proposal.md - Executive summary of the Rust rewrite with motivation, architecture overview, and performance expectations
+  2. architecture.md - Detailed hexagonal architecture design with domain core, application services, and adapters
+  3. project-structure.md - Complete workspace structure with crate organization and dependencies
+  4. performance-analysis.md - In-depth performance analysis with benchmarks and optimization techniques
+  5. sample-code.md - Concrete implementation examples of key components
+  6. roadmap.md - 10-month development plan with phases, milestones, and resource requirements
+  7. TODO.md - Actionable tasks to begin implementation immediately
+  8. README.md - Overview and guide to the proposal documents
+
+  The proposal emphasizes orthogonality through clean architecture, provides blue-sky rethinking of the system's design, and maintains all core features while leveraging Rust's strengths in
+  performance, safety, and concurrency.
