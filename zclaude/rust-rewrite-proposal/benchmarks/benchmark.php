@@ -9,6 +9,9 @@ declare(strict_types=1);
  * providing empirical data for comparison with the proposed Rust implementation.
  */
 
+// Suppress warnings for benchmarking
+error_reporting(E_ERROR | E_PARSE);
+
 // Include Composer autoloader
 require_once __DIR__ . '/../../../app/vendor/autoload.php';
 
@@ -471,8 +474,8 @@ class Benchmark
             __DIR__ . '/../../../app/cache'
         );
         
-        // Override configuration for tests if needed
-        // ...
+        // For compiled container, can't override services at runtime
+        // Instead, we're using error_reporting to suppress warnings
     }
     
     /**
@@ -480,13 +483,22 @@ class Benchmark
      */
     private function createMockRequest(array $queryParams = []): \Slim\Psr7\Request
     {
-        $serverParams = [];
+        $serverParams = [
+            'HTTP_HOST' => 'localhost:8080',
+            'SERVER_NAME' => 'localhost',
+            'SERVER_PORT' => '8080',
+            'REQUEST_URI' => '/' . (empty($queryParams) ? '' : '?' . http_build_query($queryParams)),
+            'HTTPS' => 'off',
+            'REMOTE_ADDR' => '127.0.0.1',
+            'SCRIPT_NAME' => '/index.php',
+            'REQUEST_METHOD' => 'GET',
+        ];
         $cookies = [];
         $parsedBody = null;
         $uploadedFiles = [];
         
-        $uri = new \Slim\Psr7\Uri('http', 'localhost', 80, '/', http_build_query($queryParams));
-        $headers = new \Slim\Psr7\Headers();
+        $uri = new \Slim\Psr7\Uri('http', 'localhost', 8080, '/', http_build_query($queryParams));
+        $headers = new \Slim\Psr7\Headers(['Host' => 'localhost:8080']);
         $body = new \Slim\Psr7\Stream(fopen('php://temp', 'r+'));
         
         return new \Slim\Psr7\Request('GET', $uri, $headers, $cookies, $serverParams, $body, $uploadedFiles);
